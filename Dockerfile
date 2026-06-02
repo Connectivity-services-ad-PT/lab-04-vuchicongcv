@@ -30,9 +30,11 @@ RUN addgroup --system appgroup \
     && adduser --system --ingroup appgroup --home /app appuser
 
 COPY --from=builder /opt/venv /opt/venv
+RUN chmod -R +rx /opt/venv
 COPY src/ ./src/
 
-RUN chown -R appuser:appgroup /app
+RUN chown -R appuser:appgroup /app \
+    && chmod -R 755 /app
 
 USER appuser
 
