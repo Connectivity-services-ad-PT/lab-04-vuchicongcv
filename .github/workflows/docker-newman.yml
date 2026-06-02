@@ -42,7 +42,13 @@ jobs:
 
       - name: Show container logs on failure
         if: failure()
-        run: docker logs fit4110-iot-lab04 || true
+        run: |
+          echo "=== CONTAINER STATUS ==="
+          docker ps -a
+          echo "=== CONTAINER LOGS ==="
+          docker logs fit4110-iot-lab04 || true
+          echo "=== HOST NETWORK CURL ==="
+          curl -v http://127.0.0.1:8000/health || true
 
       - name: Stop container
         if: always()
