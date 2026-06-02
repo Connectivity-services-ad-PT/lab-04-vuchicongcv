@@ -28,7 +28,7 @@ jobs:
 
       - name: Run Docker container
         run: |
-          docker run -d --rm \
+          docker run -d \
             --name fit4110-iot-lab04 \
             -p 8000:8000 \
             --env-file .env.example \
@@ -50,9 +50,11 @@ jobs:
           echo "=== HOST NETWORK CURL ==="
           curl -v http://127.0.0.1:8000/health || true
 
-      - name: Stop container
+      - name: Stop and remove container
         if: always()
-        run: docker stop fit4110-iot-lab04 || true
+        run: |
+          docker stop fit4110-iot-lab04 || true
+          docker rm fit4110-iot-lab04 || true
 
       - name: Upload Newman reports
         if: always()
